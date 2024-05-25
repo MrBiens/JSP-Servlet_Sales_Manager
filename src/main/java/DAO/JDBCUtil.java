@@ -10,7 +10,7 @@ public class JDBCUtil{
 		Connection connection=null;
 		try {
 			DriverManager.registerDriver(new com.mysql.jdbc.Driver());
-			String urlString="jdbc:mySQL://localhost:3306/myweb";
+			String urlString="jdbc:mySQL://localhost:3306/myweb_new";
 			String usernameString="root";
 			String passwordString="";
 			connection=DriverManager.getConnection(urlString, usernameString, passwordString);

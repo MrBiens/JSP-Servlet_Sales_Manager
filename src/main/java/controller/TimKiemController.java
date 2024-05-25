@@ -16,16 +16,16 @@ import model.SanPham;
 import model.TheLoai;
 
 /**
- * Servlet implementation class SanPhamController
+ * Servlet implementation class TimKiemController
  */
-@WebServlet("/san-pham")
-public class SanPhamController extends HttpServlet {
+@WebServlet("/tim-kiem")
+public class TimKiemController extends HttpServlet {
 	private static final long serialVersionUID = 1L;
        
     /**
      * @see HttpServlet#HttpServlet()
      */
-    public SanPhamController() {
+    public TimKiemController() {
         super();
         // TODO Auto-generated constructor stub
     }
@@ -37,26 +37,31 @@ public class SanPhamController extends HttpServlet {
 		request.setCharacterEncoding("UTF-8");
 		response.setCharacterEncoding("UTF-8");
 		response.setContentType("text/html;charset=UTF-8");
-		
-		String maTheLoai = request.getParameter("maTheLoai");//tro den bien maSanPhamString cua left.jsp
-		request.setAttribute("tag", maTheLoai);//doi mau khi chon the loai san pham
 		SanPhamDAO sanPhamDAO = new SanPhamDAO();
-		ArrayList<SanPham> arrayList =sanPhamDAO.getSanPhamByTheLoai(maTheLoai);//truyen ma the loai de thuc hien select where
-		request.setAttribute("listSanPham", arrayList);//thay the cho listSanPham o servlet khachhang
+		SanPham sanPham = new SanPham();
+
+		String search=request.getParameter("search");
+		ArrayList<SanPham>	search_sanPham =sanPhamDAO.searchByName(search);
+		
+		request.setAttribute("listSanPham", search_sanPham);//thay the cho listSanPham o servlet khachhang
+
+		
+		String maSanPham=request.getParameter("maSanPham");
+		sanPham.setMaSanPhamString(maSanPham);
+		sanPham=sanPhamDAO.selectById(sanPham);
+		request.setAttribute("chiTietSanPham", sanPham);
 
 		SanPham sanPhamHot=new SanPham("SP03", null, null, 0, null, null, null, null, null, null, null);
 		sanPhamHot=sanPhamDAO.selectById(sanPhamHot);//truyen 
 		request.setAttribute("p", sanPhamHot);//san pham hot
-
+		
 		TheLoaiDAO theLoaiDAO = new TheLoaiDAO();
-		ArrayList<TheLoai> arrayList_theLoai = theLoaiDAO.selectAll();
-		request.setAttribute("left_TheLoai", arrayList_theLoai);//menu ten the loai san pham
-	
+		ArrayList<TheLoai> arrayList_theLoai = theLoaiDAO.selectAll();//menu left
+		request.setAttribute("left_TheLoai", arrayList_theLoai);//hien thi list Product truoc khi sang servlet san pham
 		
 		String url = "/index.jsp";
 		RequestDispatcher requestDispatcher = getServletContext().getRequestDispatcher(url);
 		requestDispatcher.forward(request, response);
-
 		
 	}
 
@@ -67,11 +72,5 @@ public class SanPhamController extends HttpServlet {
 		// TODO Auto-generated method stub
 		doGet(request, response);
 	}
-//	private void chiTietSanPham(HttpServletRequest request, HttpServletResponse response) {
-//		
-//		
-//	}
-//	
-	
 
 }

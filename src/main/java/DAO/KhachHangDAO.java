@@ -40,9 +40,14 @@ public class KhachHangDAO implements DAOInterface<KhachHang> {
 				String soDienThoai = rs.getString("sodienthoai");
 				String email = rs.getString("email");
 				boolean dangKyNhanBangTin = rs.getBoolean("dangkynhanemail");
-
-				KhachHang kh = new KhachHang(maKhacHang, tenDangNhap, matKhau, hoVaTen, gioiTinh, diaChi,
-						diaChiNhanHang, diaChiMuaHang, ngaySinh, soDienThoai, email, dangKyNhanBangTin);
+				String maXacThucString=rs.getString("maxacthuc");
+				Date thoiGianHieuThucCuaMaXacThuc = rs.getDate("thoigianhieuluccuamaxacthuc");
+				boolean trangThaiXacThuc=rs.getBoolean("trangthaixacthuc");
+				String duongDanAnh=rs.getString("duongdananh");
+				KhachHang kh = new KhachHang(maKhacHang, tenDangNhap, matKhau, hoVaTen, gioiTinh, diaChi, diaChiNhanHang,
+						diaChiMuaHang, ngaySinh, soDienThoai, email, dangKyNhanBangTin,maXacThucString,thoiGianHieuThucCuaMaXacThuc,trangThaiXacThuc,duongDanAnh);
+				
+		
 				ketQua.add(kh);
 			}
 
@@ -86,9 +91,13 @@ public class KhachHangDAO implements DAOInterface<KhachHang> {
 				String soDienThoai = rs.getString("sodienthoai");
 				String email = rs.getString("email");
 				boolean dangKyNhanBangTin = rs.getBoolean("dangkynhanemail");
+				String maXacThucString=rs.getString("maxacthuc");
+				Date thoiGianHieuThucCuaMaXacThuc = rs.getDate("thoigianhieuluccuamaxacthuc");
+				boolean trangThaiXacThuc=rs.getBoolean("trangthaixacthuc");
+				String duongDanAnh=rs.getString("duongdananh");
 
 				ketQua = new KhachHang(maKhacHang, tenDangNhap, matKhau, hoVaTen, gioiTinh, diaChi, diaChiNhanHang,
-						diaChiMuaHang, ngaySinh, soDienThoai, email, dangKyNhanBangTin);
+						diaChiMuaHang, ngaySinh, soDienThoai, email, dangKyNhanBangTin,maXacThucString,thoiGianHieuThucCuaMaXacThuc,trangThaiXacThuc,duongDanAnh);
 
 			}
 			JDBCUtil.closeConnection(con);
@@ -132,10 +141,14 @@ public class KhachHangDAO implements DAOInterface<KhachHang> {
 				String soDienThoai = rs.getString("sodienthoai");
 				String email = rs.getString("email");
 				boolean dangKyNhanBangTin = rs.getBoolean("dangkynhanemail");
+				String maXacThucString=rs.getString("maxacthuc");
+				Date thoiGianHieuThucCuaMaXacThuc = rs.getDate("thoigianhieuluccuamaxacthuc");
+				boolean trangThaiXacThuc=rs.getBoolean("trangthaixacthuc");
+				String duongDanAnh=rs.getString("duongdananh");
 
 				ketQua = new KhachHang(maKhacHang, tenDangNhap, matKhau, hoVaTen, gioiTinh, diaChi, diaChiNhanHang,
-						diaChiMuaHang, ngaySinh, soDienThoai, email, dangKyNhanBangTin);
-			}
+						diaChiMuaHang, ngaySinh, soDienThoai, email, dangKyNhanBangTin,maXacThucString,thoiGianHieuThucCuaMaXacThuc,trangThaiXacThuc,duongDanAnh);
+}
 
 			// Bước 5:
 			JDBCUtil.closeConnection(con);
@@ -340,6 +353,67 @@ public class KhachHangDAO implements DAOInterface<KhachHang> {
 		return ketQua;
 	}
 	
+	public int updateTrangThaiXacThuc(KhachHang t) {
+		int ketQua = 0;
+		try {
+			// Bước 1: tạo kết nối đến CSDL
+			Connection con = JDBCUtil.getConnection();
+
+			// Bước 2: tạo ra đối tượng statement
+			String sql = "UPDATE khachhang " + " SET " + " maxacthuc=?" + ", thoigianhieuluccuamaxacthuc=?" + ", trangthaixacthuc=?" + " WHERE makhachhang=?";
+
+			PreparedStatement st = con.prepareStatement(sql);
+			st.setString(1, t.getMaXacThucString());
+			st.setDate(2, t.getThoiGianHieuLucCuaMaXacThucDate());
+			st.setBoolean(3, t.isTrangThaiXacThuc());
+			st.setString(4, t.getMaKhachHangString());
+			// Bước 3: thực thi câu lệnh SQL
+
+			System.out.println(sql);
+			ketQua = st.executeUpdate();
+
+			// Bước 4:
+			System.out.println("Bạn đã thực thi: " + sql);
+			System.out.println("Có " + ketQua + " dòng bị thay đổi!");
+
+			// Bước 5:
+			JDBCUtil.closeConnection(con);
+		} catch (SQLException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		return ketQua;
+	}
+	public int updateAnhDaiDien(KhachHang t) {
+		int ketQua = 0;
+		try {
+			// Bước 1: tạo kết nối đến CSDL
+			Connection con = JDBCUtil.getConnection();
+
+			// Bước 2: tạo ra đối tượng statement
+			String sql = "UPDATE khachhang " + " SET " + " duongdananh=?"  + " WHERE makhachhang=?";
+
+			PreparedStatement st = con.prepareStatement(sql);
+			st.setString(1, t.getDuongDanAnh());
+			st.setString(2, t.getMaKhachHangString());
+
+			// Bước 3: thực thi câu lệnh SQL
+
+			System.out.println(sql);
+			ketQua = st.executeUpdate();
+
+			// Bước 4:
+			System.out.println("Bạn đã thực thi: " + sql);
+			System.out.println("Có " + ketQua + " dòng bị thay đổi!");
+
+			// Bước 5:
+			JDBCUtil.closeConnection(con);
+		} catch (SQLException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		return ketQua;
+	}
 	public boolean changePassword(KhachHang t) {
 		int ketQua = 0;
 		try {

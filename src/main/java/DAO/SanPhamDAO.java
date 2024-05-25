@@ -12,7 +12,6 @@ import model.TacGia;
 import model.TheLoai;
 
 public class SanPhamDAO implements DAOInterface<SanPham>{
-	private ArrayList<SanPham> data = new ArrayList<>();
 	@Override
 	public ArrayList<SanPham> selectAll() {
 		ArrayList<SanPham> sanPham = new ArrayList<SanPham>();
@@ -50,8 +49,80 @@ public class SanPhamDAO implements DAOInterface<SanPham>{
 		return sanPham;
 		
 	}
+	//select theo ma the loai
+	public ArrayList<SanPham> getSanPhamByTheLoai(String matheloaiString) {
+		ArrayList<SanPham> sanPham = new ArrayList<SanPham>();
 
-	
+		try {
+			Connection connection=JDBCUtil.getConnection();
+			String sqlString="SELECT * FROM sanpham WHERE matheloai=? ";
+			PreparedStatement statement = connection.prepareStatement(sqlString);
+			statement.setString(1, matheloaiString);
+
+			ResultSet resultSet=statement.executeQuery();
+			while (resultSet.next()) {
+				String maSanphamString=resultSet.getString("masanpham");
+				String tenSanPhamString=resultSet.getString("tensanpham");
+				String maTacGiaString=resultSet.getString("matacgia");
+				int namxuatban=resultSet.getInt("namxuatban");
+				double giaNhap=resultSet.getDouble("gianhap");
+				double giaGoc=resultSet.getDouble("giagoc");
+				double giaBan=resultSet.getDouble("giaban");
+				double soLuong=resultSet.getDouble("soluong");
+				String maTheLoaiString=resultSet.getString("matheloai");
+				String ngonnguString=resultSet.getString("ngonngu");
+				String motaString=resultSet.getString("mota");
+				
+				TacGia tacGia=new TacGiaDAO().selectById(new TacGia(maTacGiaString,null,null,null));
+				TheLoai theLoai=new TheLoaiDAO().selectById(new TheLoai(maTheLoaiString,null));
+				
+				SanPham sp=new SanPham(maSanphamString,tenSanPhamString,tacGia,namxuatban,giaNhap,giaGoc,giaBan,soLuong,theLoai,ngonnguString,motaString);
+				sanPham.add(sp);
+			}
+			JDBCUtil.closeConnection(connection);
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+		return sanPham;
+		
+	}
+	public ArrayList<SanPham> searchByName(String tenSanPham) {
+		ArrayList<SanPham> sanPham = new ArrayList<SanPham>();
+
+		try {
+			Connection connection=JDBCUtil.getConnection();
+			String sqlString="SELECT * FROM sanpham WHERE tensanpham like ? ";
+			PreparedStatement statement = connection.prepareStatement(sqlString);
+			statement.setString(1, "%"+tenSanPham+"%");//like %ten%
+
+			ResultSet resultSet=statement.executeQuery();
+			while (resultSet.next()) {
+				String maSanphamString=resultSet.getString("masanpham");
+				String tenSanPhamString=resultSet.getString("tensanpham");
+				String maTacGiaString=resultSet.getString("matacgia");
+				int namxuatban=resultSet.getInt("namxuatban");
+				double giaNhap=resultSet.getDouble("gianhap");
+				double giaGoc=resultSet.getDouble("giagoc");
+				double giaBan=resultSet.getDouble("giaban");
+				double soLuong=resultSet.getDouble("soluong");
+				String maTheLoaiString=resultSet.getString("matheloai");
+				String ngonnguString=resultSet.getString("ngonngu");
+				String motaString=resultSet.getString("mota");
+				
+				TacGia tacGia=new TacGiaDAO().selectById(new TacGia(maTacGiaString,null,null,null));
+				TheLoai theLoai=new TheLoaiDAO().selectById(new TheLoai(maTheLoaiString,null));
+				
+				SanPham sp=new SanPham(maSanphamString,tenSanPhamString,tacGia,namxuatban,giaNhap,giaGoc,giaBan,soLuong,theLoai,ngonnguString,motaString);
+				sanPham.add(sp);
+			}
+			JDBCUtil.closeConnection(connection);
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+		return sanPham;
+		
+	}
+
 
 	@Override
 	public SanPham selectById(SanPham t) {

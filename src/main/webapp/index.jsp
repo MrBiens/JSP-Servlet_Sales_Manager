@@ -29,6 +29,7 @@
 	  	<div class="row">
 	  	<!--  Menu left -->
 	  	<jsp:include page="left.jsp"></jsp:include>
+	  	
 	  	<!-- End menu left -->
 	    <!-- Slider(slider) and products -->
 	    <!-- col-lg-9 bg-warning(mau vang) -->
@@ -71,7 +72,7 @@
 					    <div class="card" style="width: 20rem;">
 							  <img src="img/product/suit/1.png" class="card-img-top" alt="...">
 							  <div class="card-body">
-							    <h5 class="card-title">${o.tenSanPhamString}</h5>
+							    <h5 class="card-title"><a href="chi-tiet-san-pham?maSanPham=${o.maSanPhamString}" title="viewProduct">${o.tenSanPhamString}</a></h5>
 							    <p class="card-text">${o.motaString}</p>
 							    <a href="#" class="btn btn-primary">Buy</a>
 						 	</div>

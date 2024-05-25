@@ -34,8 +34,8 @@
           <a class="nav-link disabled" aria-disabled="true">Vô hiệu hóa</a>
         </li>
       </ul>
-      <form class="d-flex" role="search">
-        <input class="form-control me-2" type="search" placeholder="Nội dung tìm kiếm" aria-label="Search">
+      <form class="d-flex" action="<%=url%>/tim-kiem" method="POST">
+        <input class="form-control me-2" name="search" type="search" placeholder="Nội dung tìm kiếm" aria-label="Search">
         <button class="btn btn-outline-success" style="white-space: nowrap;" type="submit">Tìm kiếm</button>
         <!-- Dang nhap -->
         <%
@@ -60,6 +60,7 @@
 						<ul class="dropdown-menu">
 							<li><a class="dropdown-item" href="#">Đơn hàng của tôi</a></li>
 							<li><a class="dropdown-item" href="#">Thông báo</a></li>
+							<li><a class="dropdown-item" href="<%=url%>/khachhangview/thaydoianh.jsp">Thay đổi ảnh đại diện</a></li>
    			   			 	<li><a class="dropdown-item" href="<%=url%>/khachhangview/thaydoithongtin.jsp">Thay đổi thông tin</a></li>
    			  			  	<li><a class="dropdown-item" href="<%=url%>/khachhangview/doimatkhau.jsp">Thay đổi mật khẩu</a></li>
 							<li><hr class="dropdown-divider"></li>

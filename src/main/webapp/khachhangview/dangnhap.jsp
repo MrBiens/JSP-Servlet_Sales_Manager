@@ -18,13 +18,15 @@
 	src="https://cdn.jsdelivr.net/npm/bootstrap@5.2.1/dist/js/bootstrap.min.js"
 	integrity="sha384-7VPbUDkoPSGFnVtYi0QogXtr74QeVeeIs99Qfg5YCF+TidwNdjvaKZX19NZ/e6oz"
 	crossorigin="anonymous"></script>
-<style>
 
-</style>
 <% String url=request.getScheme()+"://"+request.getServerName()+":"+request.getServerPort()+request.getContextPath(); 
 
 	String error_login=request.getAttribute("error_login")+"";
 	error_login=error_login.equals("null")?"":error_login;
+	
+	String baoLoi=request.getAttribute("baoLoi")+"";
+	baoLoi=baoLoi.equals("null")?"":baoLoi;
+
 	
 %>
 <link href="<%=url%>/css/signin.css" rel="stylesheet">
@@ -37,6 +39,7 @@
 		
 		<img class="mb-4" src="<%=url%>/img/logo/logofull 2.png"
 			alt="" width="72">
+		<%=baoLoi%>
 		<h1 class="h3 mb-3 fw-norm al">ĐĂNG NHẬP</h1>
 		<div class="text-center"> <span class="rq"><%=error_login %></span></div>
 		<div class="form-floating">
