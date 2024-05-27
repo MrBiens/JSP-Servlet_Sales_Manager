@@ -1,3 +1,4 @@
+Ctrl+F : Create
 Database Sales_Manager -MYSQL
 Create DataBase myweb_new
 
